@@ -23,11 +23,27 @@ export const ReportDocument: React.FC<ReportDocumentProps> = ({ report }) => {
     
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfPageHeight = pdf.internal.pageSize.getHeight();
+    const imgProps = pdf.getImageProperties(imgData);
+    const canvasHeightInMm = (imgProps.height * pdfWidth) / imgProps.width;
+    
+    let heightLeft = canvasHeightInMm;
+    let position = 0;
+
+    // Add first page
+    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, canvasHeightInMm);
+    heightLeft -= pdfPageHeight;
+
+    // Add subsequent pages
+    while (heightLeft > 0) {
+      position -= pdfPageHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, canvasHeightInMm);
+      heightLeft -= pdfPageHeight;
+    }
+    
     pdf.save(`Stent_Report_${report.sample.replace(/\s+/g, '_')}.pdf`);
   };
 
