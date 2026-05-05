@@ -1,0 +1,6 @@
+{
+  "name": "Stent Analysis & Report System",
+  "description": "Scientific analysis of MP35N stents in calcified environments with Nature Materials style reporting and PDF export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["firebase", "pdf-generation"]
+}

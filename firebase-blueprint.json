@@ -1,0 +1,32 @@
+{
+  "entities": {
+    "StentReport": {
+      "title": "Stent Material Report",
+      "description": "Morphometric and compositional analysis of stents in calcified environments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sample": { "type": "string" },
+        "stentMaterial": { "type": "string" },
+        "stentRodArea": { "type": "number" },
+        "calcArea": { "type": "number" },
+        "encapArea": { "type": "number" },
+        "encapRatioVsCalc": { "type": "number" },
+        "encapRatioVsStent": { "type": "number" },
+        "calcDistMean": { "type": "number" },
+        "calcDistMax": { "type": "number" },
+        "calcDistMin": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["draft", "final"] },
+        "ownerId": { "type": "string" }
+      },
+      "required": ["sample", "stentMaterial", "stentRodArea", "calcArea", "ownerId"]
+    }
+  },
+  "firestore": {
+    "/stentReports/{reportId}": {
+      "schema": "StentReport",
+      "description": "Collection of stent analytical reports"
+    }
+  }
+}
